@@ -4,8 +4,8 @@ Disclaimer: This project was entirely based on the Instructable post by RGCO use
 
 # Background
 * Across all the Arduino-based oscilloscopes available online (and there are many out there!), I came across the project by [RGCO](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) which has two great advantages: 
-  * The Arduino ADC settings (most important the prescaler factor) is tweaked to run the ADC at maximum speed
-  * User interface written in Processing language, which is Java-based and be easily compiled for various platforms (Windows, Mac, Linux, Arm, Android,...)
+  * The Arduino ADC settings (most important the prescaler factor) are tweaked to run the ADC at maximum speed.
+  * User interface written in Processing language, which is Java-based and can be easily compiled for various platforms (Windows, Mac, Linux, Arm, Android,...)
 * The purpose of this project is to adapdt RGCO original code to be used as an amateur multi-channel oscilloscope for undergraduate students introductory experimental course on alternate-currents. Specifically [F429](https://www.dac.unicamp.br/sistemas/catalogos/grad/catalogo2020/coordenadorias/0029/0029.html#F%20429) tought at Unicamp for many STEM majors.
 # Why changing RGCO original code? 
 I reproduce here the original features quoted at [Instructables.com]( https://www.instructables.com/id/Another-Arduino-Oscilloscope/):
