@@ -48,7 +48,12 @@ On top of these, I would add that this is an extremely cheap scope, even when co
     └── serial_port_selection.png
 ```
 # Roadmap
-
+## Software upgrades
 * V0.0 : Current version
 * V0.1 : Adapt code to work with Android phones
+## Validation and calibration
+The lack of an appropriate analog front-end for the ADC poses several issues that must be taken into account when using this as a multi-channel oscilloscope at tens of KHz. A few things that deserve some attention:
+   * Output impedance of internal signal generator (using arduino PWM)
+   * ADC settling time that create [ghosting effect](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019KzzSAE&l=en-US) between channels.
+   * Using common DC offset to enable positive/negative measurements
   
