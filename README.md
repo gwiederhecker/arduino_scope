@@ -27,5 +27,6 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
 # Roadmap
 
-
+* V0.0 : Current version
+* V0.1 : Adapt code to work with Android phones
   
