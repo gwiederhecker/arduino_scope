@@ -56,4 +56,5 @@ The lack of an appropriate analog front-end for the ADC poses several issues tha
    * Output impedance of internal signal generator (using arduino PWM)
    * ADC settling time that create [ghosting effect](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019KzzSAE&l=en-US) between channels.
    * Using common DC offset to enable positive/negative measurements
+   * Over the next coupled of months (Oct-Nov 2020), we should post some extensive comparison with commercial oscilloscope in various loading conditions.
   
