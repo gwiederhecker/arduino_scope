@@ -25,6 +25,26 @@ On top of these, I would add that this is an extremely cheap scope, even when co
   * Hability to save the data to a file.
   * Compiled versions so students could plug and play to get their analysis going.
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
+# Folder Strucure
+├── Arduino_Scope_Desktop 
+│   ├── Arduino_Scope_desktop.pde # Processing file
+│   ├── application.linux-arm64  # Binary app folder
+│   ├── application.linux-armv6hf # Binary app folder
+│   ├── application.linux32 # Binary app folder
+│   ├── application.linux64 # Binary app folder
+│   ├── application.macosx # Binary app folder
+│   ├── application.windows32 # Binary app folder
+│   └── application.windows64 # Binary app folder
+├── Arduino_code
+│   └── Arduino_Scope.ino # Arduino code 
+├── Examples
+│   ├── canais_2020-08-18T14:37:13.csv # Example CSV capture with the "save" button
+│   └── load_data.ipynb # load and plot csv
+├── README.md
+└── Screenshots
+    ├── capacitor_loaded_trace.png
+    ├── save_folder_selection.png
+    └── serial_port_selection.png
 # Roadmap
 
 * V0.0 : Current version
