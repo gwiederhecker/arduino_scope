@@ -26,6 +26,7 @@ On top of these, I would add that this is an extremely cheap scope, even when co
   * Compiled versions so students could plug and play to get their analysis going.
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
 # Folder Strucure
+```bash
 ├── Arduino_Scope_Desktop 
 │   ├── Arduino_Scope_desktop.pde # Processing file
 │   ├── application.linux-arm64  # Binary app folder
@@ -45,6 +46,7 @@ On top of these, I would add that this is an extremely cheap scope, even when co
     ├── capacitor_loaded_trace.png
     ├── save_folder_selection.png
     └── serial_port_selection.png
+```
 # Roadmap
 
 * V0.0 : Current version
