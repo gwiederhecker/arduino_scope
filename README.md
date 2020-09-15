@@ -27,29 +27,37 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
 # Folder Strucure
 ```bash
-├── Arduino_Scope_Desktop 
-│   ├── Arduino_Scope_desktop.pde # Processing file
-│   ├── application.linux-arm64  # Binary app folder
-│   ├── application.linux-armv6hf # Binary app folder
-│   ├── application.linux32 # Binary app folder
-│   ├── application.linux64 # Binary app folder
-│   ├── application.macosx # Binary app folder
-│   ├── application.windows32 # Binary app folder
-│   └── application.windows64 # Binary app folder
+.
+├── Arduino_Scope_Desktop
+│   ├── Arduino_Scope_desktop.pde
+│   ├── application.linux-arm64
+│   ├── application.linux-armv6hf
+│   ├── application.linux-armv6hf.zip
+│   ├── application.linux32
+│   ├── application.linux64
+│   ├── application.linux64.zip
+│   ├── application.macosx
+│   ├── application.macosx.zip
+│   ├── application.windows32
+│   ├── application.windows32.zip
+│   └── application.windows64
 ├── Arduino_code
-│   └── Arduino_Scope.ino # Arduino code 
+│   └── Arduino_code.ino
 ├── Examples
-│   ├── canais_2020-08-18T14:37:13.csv # Example CSV capture with the "save" button
-│   └── load_data.ipynb # load and plot csv
+│   ├── canais_2020-08-18T14:37:13.csv
+│   └── load_data.ipynb
+├── License.md
 ├── README.md
 └── Screenshots
     ├── capacitor_loaded_trace.png
+    ├── cursors.png
     ├── save_folder_selection.png
     └── serial_port_selection.png
 ```
 # Roadmap
 ## Software upgrades
-* V0.0 : Current version
+* V0.0 : Initial version
+* V0.0.1 : Current version - Added cursors and save screenshot feature with TAB key.
 * V0.1 : Adapt code to work with Android phones
 ## Validation and calibration
 The lack of an appropriate analog front-end for the ADC poses several issues that must be taken into account when using this as a multi-channel oscilloscope at tens of KHz. A few things that deserve some attention:
