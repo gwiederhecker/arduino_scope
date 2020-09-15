@@ -1,7 +1,7 @@
 # arduino_scope
 Project for "take-home" Arduino-based scope.
 Disclaimer: This project was entirely based on the Instructable post by RGCO user: https://www.instructables.com/id/Another-Arduino-Oscilloscope/
-
+![Screen_shot](https://github.com/gwiederhecker/arduino_scope/blob/master/Screenshots/cursors_example.png)
 # Background
 * Across all the Arduino-based oscilloscopes available online (and there are many out there!), I came across the project by [RGCO](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) which has two great advantages: 
   * The Arduino ADC settings (most important the prescaler factor) are tweaked to run the ADC at maximum speed.
