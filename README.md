@@ -49,7 +49,8 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 ```
 # Roadmap
 ## Software upgrades
-* V0.0 : Current version
+* V0.0 : Initial version
+* V0.0.1 : Current version - Added cursors and save screenshot feature with TAB key.
 * V0.1 : Adapt code to work with Android phones
 ## Validation and calibration
 The lack of an appropriate analog front-end for the ADC poses several issues that must be taken into account when using this as a multi-channel oscilloscope at tens of KHz. A few things that deserve some attention:
