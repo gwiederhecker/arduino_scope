@@ -27,22 +27,21 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
 # Folder Strucure
 ```bash
-.
 ├── Arduino_Scope_Desktop
 │   ├── Arduino_Scope_desktop.pde
-│   ├── application.linux-arm64
 │   ├── application.linux-armv6hf
 │   ├── application.linux-armv6hf.zip
-│   ├── application.linux32
 │   ├── application.linux64
 │   ├── application.linux64.zip
 │   ├── application.macosx
 │   ├── application.macosx.zip
 │   ├── application.windows32
-│   ├── application.windows32.zip
-│   └── application.windows64
+│   └── application.windows32.zip
 ├── Arduino_code
 │   └── Arduino_code.ino
+├── Arduino_schematic
+│   ├── QUCS_schematic
+│   └── protoboard
 ├── Examples
 │   ├── canais_2020-08-18T14:37:13.csv
 │   └── load_data.ipynb
@@ -56,8 +55,8 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 ```
 # Roadmap
 ## Software upgrades
-* V0.0 : Initial version
-* V0.0.1 : Current version - Added cursors and save screenshot feature with TAB key.
+* V0.0-alpha : Initial version
+* V0.0-beta : Current version - Added cursors and save screenshot feature with TAB key.
 * V0.1 : Adapt code to work with Android phones
 ## Validation and calibration
 The lack of an appropriate analog front-end for the ADC poses several issues that must be taken into account when using this as a multi-channel oscilloscope at tens of KHz. A few things that deserve some attention:
