@@ -5,17 +5,17 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>Arduino_Scope_desktop</string>
+    <string>Arduino_Scope_Desktop</string>
     <key>CFBundleIconFile</key>
     <string>sketch.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>Arduino_Scope_desktop</string>
+    <string>Arduino_Scope_Desktop</string>
     <key>CFBundleDisplayName</key>
-    <string>Arduino_Scope_desktop</string>
+    <string>Arduino_Scope_Desktop</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Arduino_Scope_desktop</string>
+    <string>Arduino_Scope_Desktop</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
 
@@ -36,7 +36,7 @@
     <string>jdk1.8.0_202.jdk</string>
 
     <key>JVMMainClassName</key>
-    <string>Arduino_Scope_desktop</string>
+    <string>Arduino_Scope_Desktop</string>
 
     <key>LSMinimumSystemVersion</key>
     <string>10.8.5</string>
@@ -68,7 +68,7 @@
       <string>-Dapple.laf.useScreenMenuBar=true</string>
       <string>-Dcom.apple.macos.use-file-dialog-packages=true</string>
       <string>-Dcom.apple.macos.useScreenMenuBar=true</string>
-      <string>-Dcom.apple.mrj.application.apple.menu.about.name=Arduino_Scope_desktop</string>
+      <string>-Dcom.apple.mrj.application.apple.menu.about.name=Arduino_Scope_Desktop</string>
       <string>-Dcom.apple.smallTabs=true</string>
     </array>
     <key>JVMArguments</key>

@@ -11,6 +11,13 @@ import java.time.format.DateTimeFormatter;
 Serial port;  // Create object from Serial class
 ControlP5 cp5; // you always need the main class
 
+//---cross-marker toolip variables
+int mouseX0;
+int mouseY0;
+String theTooltipString;
+String theTooltipString2;
+String theTooltipString3;
+//-------
 boolean port_selected=false;
 int maxnsamp=1200;
 int[] values=new int[maxnsamp];
@@ -65,7 +72,7 @@ int x_tb=x_ch;
 int y_tb=y_ch+8*h_ch;
 int w_tb=w_ch;
 int h_tb=h_ch;
-int[] tbms    ={ 1, 2, 5, 10, 20, 50,100};
+float[] tbms    ={1, 2, 5, 10, 20, 50,100};
 int[] ADCPS   ={16,32,64,128,128,128,128};
 int[] skipsamp={ 1, 1, 1,  1,  2,  5, 10};
 int ntbval=tbms.length;
@@ -483,9 +490,25 @@ void draw()
   if(trig_mode==0 || doread)getdata();
   drawtraces(); 
   save_mode=false;
+  
+  }
+  //draw cross markers at mouse position
+  if (mousePressed && (mouseButton == LEFT)) {
+    //draw_crosses(0,mouseX0,mouseY0);
+    draw_crosses(0);
+  }
+  //draw cross markers at mouse position, keep inital position
+  if (mousePressed && (mouseButton == RIGHT)) {
+    //draw_crosses(1,mouseX0,mouseY0);
+    draw_crosses(1);
   }
 }
 
+void keyReleased() {
+  if (key == TAB) {
+    save_screen();
+}
+}
 void save_data()
 {
   //current date timetag
@@ -529,9 +552,119 @@ void save_data()
   //timetag.replace(':','-');
   println(save_folder+File.separator+"canais_"+formattedDateTime+".csv");
   saveTable(table, save_folder+File.separator+"canais_"+formattedDateTime+".csv");
-  //TableRow row = table.addRow();
+}
 
-////Set the values of all columns in that row.
+void save_screen()
+{
+  //current date timetag
+  LocalDate date = LocalDate.now();
+  LocalTime time = LocalTime.now();
+  LocalDateTime dateTime2 = LocalDateTime.of(date, time.withNano(0));
+  println(dateTime2);
+  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+  String formattedDateTime = dateTime2.format(formatter);
+  saveFrame(save_folder+File.separator+"screen_shot_"+formattedDateTime+".png");
+
+}
+
+//void draw_crosses(int persist, int mouseX0, int mouseY0)
+void draw_crosses(int persist)
+{
+    if(persist==0){
+      println("left");
+      if(mouseX<(x_scrn+w_scrn) && mouseX>(x_scrn) && mouseY<(y_scrn+h_scrn) && mouseY>(y_scrn)){
+       stroke(0,255,0);
+       line(mouseX, y_scrn, mouseX, y_scrn+h_scrn); //vertical
+       stroke(0,255,0);
+       line(x_scrn, mouseY, x_scrn+w_scrn,mouseY); //horizontal
+       //tootip
+       float voltage_val= -(mouseY-(y_scrn+h_scrn))*5.0/h_scrn;
+       //println(tbms[tbval]);
+       float fsamp=16e6/(13*ADCPS[tbval]*skipsamp[tbval]);
+       float xdivdist=1e-3*tbms[tbval]*fsamp*((1.0*w_scrn)/(1.0*nsamp));
+       float time_val= (mouseX-(x_scrn))*1.0/xdivdist*tbms[tbval];
+      // println(xdivdist);
+       theTooltipString = "("+nf(time_val, 0, 2)+";"+ nf(voltage_val,0,2)+")";
+       float tw = textWidth(theTooltipString);
+        fill(0, 255, 0);
+        stroke(0);
+        //rect(mouseX-(tw + 4), mouseY, tw + 4, 20);
+        rect(2*x_scrn,2*y_scrn, tw + 20, 30);
+        fill(0);
+        text(theTooltipString, 2*x_scrn + 2,2*y_scrn +4, tw+20, 30);
+      // set X0,Y0
+        mouseX0 = mouseX;
+        mouseY0 = mouseY;
+      }
+    }
+    if(persist==1){
+       println("right");
+         if(mouseX0<(x_scrn+w_scrn) && mouseX0>(x_scrn) && mouseY0<(y_scrn+h_scrn) && mouseY0>(y_scrn)){
+        //---------------------------
+        //initial cross
+        //---------------------------
+         stroke(0,200,0);
+         line(mouseX0, y_scrn, mouseX0, y_scrn+h_scrn); //vertical
+         stroke(0,200,0);
+         line(x_scrn, mouseY0, x_scrn+w_scrn,mouseY0); //horizontal
+         //---------------------------
+        //moving cross
+        //---------------------------
+        stroke(255,0,0);
+         line(mouseX, y_scrn, mouseX, y_scrn+h_scrn); //vertical
+         stroke(255,0,0);
+         line(x_scrn, mouseY, x_scrn+w_scrn,mouseY); //horizontal
+         //---------------------------
+         //tootip vars
+         //---------------------------
+         //tooltip1
+         float voltage_val= -(mouseY0-(y_scrn+h_scrn))*5.0/h_scrn;
+         //println(tbms[tbval]);
+         float fsamp=16e6/(13*ADCPS[tbval]*skipsamp[tbval]);
+         float xdivdist=1e-3*tbms[tbval]*fsamp*((1.0*w_scrn)/(1.0*nsamp));
+         float time_val= (mouseX0-(x_scrn))*1.0/xdivdist*tbms[tbval];
+          //tooltip2
+         float voltage_val2= -(mouseY-(y_scrn+h_scrn))*5.0/h_scrn;
+         //println(tbms[tbval]);
+         float fsamp2=16e6/(13*ADCPS[tbval]*skipsamp[tbval]);
+         float xdivdist2=1e-3*tbms[tbval]*fsamp*((1.0*w_scrn)/(1.0*nsamp));
+         float time_val2= (mouseX-(x_scrn))*1.0/xdivdist*tbms[tbval];
+         //---------------------------
+         //tootip drawing
+         //---------------------------
+         theTooltipString = "(t0;V0)=("+nf(time_val, 0, 2)+";"+ nf(voltage_val,0,2)+")";
+         println(theTooltipString);
+         float tw = textWidth(theTooltipString);
+          fill(0, 255, 255);
+          fill(0, 255, 0);
+          stroke(0);
+          //rect(mouseX-(tw + 4), mouseY, tw + 4, 20);
+          rect(2*x_scrn,2*y_scrn, tw + 20, 30);
+          fill(0);
+          text(theTooltipString, 2*x_scrn + 2,2*y_scrn +4, tw+20, 30);
+          //---------------------------
+         theTooltipString2 = "(t1;V1)=("+nf(time_val2, 0, 2)+";"+ nf(voltage_val2,0,2)+")";
+         float tw2 = textWidth(theTooltipString2);
+          fill(0, 255, 255);
+          fill(255, 0, 0);
+          stroke(0);
+          //rect(mouseX-(tw + 4), mouseY, tw + 4, 20);
+          rect(2*x_scrn,4*y_scrn, tw2 + 20, 30);
+          fill(0);
+          //text(theTooltipString, mouseX-(tw + 4) + 2, mouseY + 4, tw, 20);
+          text(theTooltipString2, 2*x_scrn + 2,4*y_scrn +4, tw2+20, 30);
+        //---------------------------
+        theTooltipString3 = "(dt;dV)=("+nf(time_val2-time_val, 0, 2)+";"+ nf(voltage_val2-voltage_val,0,2)+")";
+        float tw3 = textWidth(theTooltipString3);
+          fill(250, 250, 0);
+          stroke(0);
+          //rect(mouseX-(tw + 4), mouseY, tw + 4, 20);
+          rect(2*x_scrn,6*y_scrn, tw3 + 20, 30);
+          fill(0);
+          //text(theTooltipString, mouseX-(tw + 4) + 2, mouseY + 4, tw, 20);
+          text(theTooltipString3, 2*x_scrn + 2,6*y_scrn +4, tw3+20, 30);
+      }
+    }
 }
 
 //called everytime a mouse is pressed
@@ -575,7 +708,6 @@ void mousePressed(){  //check for mouse clicks
     drawts();
     doread=true;
   }
-  
   
   //trigger level
   if(mouseX>x_scrn-10 && mouseX<x_scrn && mouseY>y_scrn && mouseY<y_scrn+h_scrn){
