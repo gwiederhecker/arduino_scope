@@ -4,8 +4,8 @@ Disclaimer: This project was entirely based on the Instructable post by RGCO use
 
 # Background
 * Across all the Arduino-based oscilloscopes available online (and there are many out there!), I came across the project by [RGCO](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) which has two great advantages: 
-  * The Arduino ADC settings (most important the prescaler factor) is tweaked to run the ADC at maximum speed
-  * User interface written in Processing language, which is Java-based and be easily compiled for various platforms (Windows, Mac, Linux, Arm, Android,...)
+  * The Arduino ADC settings (most important the prescaler factor) are tweaked to run the ADC at maximum speed.
+  * User interface written in Processing language, which is Java-based and can be easily compiled for various platforms (Windows, Mac, Linux, Arm, Android,...)
 * The purpose of this project is to adapdt RGCO original code to be used as an amateur multi-channel oscilloscope for undergraduate students introductory experimental course on alternate-currents. Specifically [F429](https://www.dac.unicamp.br/sistemas/catalogos/grad/catalogo2020/coordenadorias/0029/0029.html#F%20429) tought at Unicamp for many STEM majors.
 # Why changing RGCO original code? 
 I reproduce here the original features quoted at [Instructables.com]( https://www.instructables.com/id/Another-Arduino-Oscilloscope/):
@@ -25,7 +25,36 @@ On top of these, I would add that this is an extremely cheap scope, even when co
   * Hability to save the data to a file.
   * Compiled versions so students could plug and play to get their analysis going.
 * These three items are the major contributions of the this project, when compared to the [original post](https://www.instructables.com/id/Another-Arduino-Oscilloscope/) by RGCO.
+# Folder Strucure
+```bash
+├── Arduino_Scope_Desktop 
+│   ├── Arduino_Scope_desktop.pde # Processing file
+│   ├── application.linux-arm64  # Binary app folder
+│   ├── application.linux-armv6hf # Binary app folder
+│   ├── application.linux32 # Binary app folder
+│   ├── application.linux64 # Binary app folder
+│   ├── application.macosx # Binary app folder
+│   ├── application.windows32 # Binary app folder
+│   └── application.windows64 # Binary app folder
+├── Arduino_code
+│   └── Arduino_Scope.ino # Arduino code 
+├── Examples
+│   ├── canais_2020-08-18T14:37:13.csv # Example CSV capture with the "save" button
+│   └── load_data.ipynb # load and plot csv
+├── README.md
+└── Screenshots
+    ├── capacitor_loaded_trace.png
+    ├── save_folder_selection.png
+    └── serial_port_selection.png
+```
 # Roadmap
-
-
+## Software upgrades
+* V0.0 : Current version
+* V0.1 : Adapt code to work with Android phones
+## Validation and calibration
+The lack of an appropriate analog front-end for the ADC poses several issues that must be taken into account when using this as a multi-channel oscilloscope at tens of KHz. A few things that deserve some attention:
+   * Output impedance of internal signal generator (using arduino PWM)
+   * ADC settling time that create [ghosting effect](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019KzzSAE&l=en-US) between channels.
+   * Using common DC offset to enable positive/negative measurements
+   * Over the next coupled of months (Oct-Nov 2020), we should post some extensive comparison with commercial oscilloscope in various loading conditions.
   
