@@ -477,6 +477,7 @@ void drawtraces(){
         if(isamp>=nchan) line(xprev,yprev,x,y);
         xprev=x;
         yprev=y;
+        println(x);
       }
       i=nextchan[i];
     }
