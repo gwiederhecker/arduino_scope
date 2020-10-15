@@ -1,5 +1,7 @@
 # arduino_scope
 Project for "take-home" Arduino-based scope.
+Binaries for Windows, Mac, Linux, & Arm are available in the "Released versions", get the lastest one here https://github.com/gwiederhecker/arduino_scope/releases!
+
 Disclaimer: This project was entirely based on the Instructable post by RGCO user: https://www.instructables.com/id/Another-Arduino-Oscilloscope/
 <p align="center">
   <img src="https://github.com/gwiederhecker/arduino_scope/blob/master/Screenshots/cursors_example.png" width="450" alt="accessibility text">
