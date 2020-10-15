@@ -24,7 +24,8 @@ boolean port_selected=false;
 int maxnsamp=1200;
 int[] values=new int[maxnsamp];
 int maxval=4096;
-String save_folder="";
+String save_folder;
+boolean folder_selected=false;
 
 //int w_win 800; 
 //int h_win=600;
@@ -191,11 +192,11 @@ void setup()
   draw_interface();
   //************************
   //font_menu = createFont("ArialMT",10,true);
-  selectSerialPort();
-  openSerialPort();
+  //selectSerialPort();
+  //openSerialPort();
   //***********************
   //FOLDER SELECT
-  selectFolder("Select a folder to save data and screenshots:", "folderSelected");
+  //selectFolder("Select a folder to save data and screenshots:", "folderSelected");
   //registerMethod("pre", this); // V2.0.3
 }
 //void pre() {
@@ -228,9 +229,11 @@ void setup()
 void folderSelected(File selection) {
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
+    folder_selected=false;
   } else {
     save_folder = selection.getAbsolutePath();
     println("User selected " + selection.getAbsolutePath());
+    folder_selected=true;
   }
 }
 //*******************
@@ -646,6 +649,7 @@ void save_data()
   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
   String formattedDateTime = dateTime2.format(formatter);
   //timetag.replace(':','-');
+  println("Saving on folder:"+save_folder);
   println(save_folder+File.separator+"canais_"+formattedDateTime+".csv");
   saveTable(table, save_folder+File.separator+"canais_"+formattedDateTime+".csv");
 }
@@ -829,7 +833,17 @@ void mousePressed() {  //check for mouse clicks
     save_fill_color =0;
     drawts();
     //doread=true;
-    save_data();
+    //*******
+    if(save_folder == null){
+      selectFolder("Select a folderto save data and screenshots:", "folderSelected");
+    } 
+    
+      while (save_folder==null){
+      delay(500);  
+      }
+      save_data();
+    
+    
     delay(500);
     save_fill_color =255;
     drawts();
