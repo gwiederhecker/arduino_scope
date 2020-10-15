@@ -32,14 +32,7 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 ```bash
 ├── Arduino_Scope_Desktop
 │   ├── Arduino_Scope_desktop.pde
-│   ├── application.linux-armv6hf
-│   ├── application.linux-armv6hf.zip
-│   ├── application.linux64
-│   ├── application.linux64.zip
-│   ├── application.macosx
-│   ├── application.macosx.zip
-│   ├── application.windows32
-│   └── application.windows32.zip
+│   └── binaries
 ├── Arduino_code
 │   └── Arduino_code.ino
 ├── Arduino_schematic
@@ -52,7 +45,7 @@ On top of these, I would add that this is an extremely cheap scope, even when co
 ├── README.md
 └── Screenshots
     ├── capacitor_loaded_trace.png
-    ├── cursors.png
+    ├── cursors_example.png
     ├── save_folder_selection.png
     └── serial_port_selection.png
 ```
