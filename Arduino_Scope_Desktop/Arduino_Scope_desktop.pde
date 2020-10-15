@@ -155,18 +155,24 @@ void openSerialPort()
 //Select serial port   function
 void selectSerialPort()
 {
-  String input_port = (String) showInputDialog(null, "Serial port", 
+  try {
+    String input_port = (String) showInputDialog(null, "Serial port", 
     "Select Arduino Serial Port ", QUESTION_MESSAGE, null, // Use
     // default
     // icon
     Serial.list(), // Array of choices
     Serial.list()[0]); // Initial choice
-
-  if (input_port!= null) {
+    if (input_port!= null) {
     portname = input_port;
     openSerialPort();
     port_selected = true;
   }
+  //run a bit of code
+} catch (Exception e) {
+   javax.swing.JOptionPane.showMessageDialog(null, "No serial ports connected! Plug your Arduino to the USB port. " + e);
+} 
+
+
 }
 void draw_interface()
 {
@@ -605,6 +611,13 @@ void draw()
 
 void keyReleased() {
   if (key == TAB) {
+       if(save_folder == null){
+      selectFolder("Select a folderto save data and screenshots:", "folderSelected");
+    } 
+    
+      while (save_folder==null){
+      delay(500);  
+      }
     save_screen();
   }
 }
