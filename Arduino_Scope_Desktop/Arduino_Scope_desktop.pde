@@ -670,7 +670,7 @@ void save_data()
   //creating voltage channels
   for (int ichan=0; ichan<maxnchan; ichan++) {
     if (chanstat[ichan]>0) {
-      table.addColumn("voltage_"+str(ichan)+"(V)");
+      table.addColumn("voltage_"+str(ichan));
     }
   }
   //creating x-valued rows
@@ -680,7 +680,7 @@ void save_data()
       float x = nchan*isamp*(w_scrn/(1.0*nsamp));
       float time_val= x*1.0/xdivdist*tbms[tbval];
       TableRow newRow = table.addRow();
-      newRow.setFloat("time(s)", time_val);
+      newRow.setFloat("time(ms)", time_val);
   }
   //attributing y-values for enabled channels
   int ichan0 =0; 
@@ -722,7 +722,7 @@ void save_screen()
 void draw_crosses(int persist)
 {
   if (persist==0) {
-    println("left");
+    //println("left");
     if (mouseX<(x_scrn+w_scrn) && mouseX>(x_scrn) && mouseY<(y_scrn+h_scrn) && mouseY>(y_scrn)) {
       stroke(0, 255, 0);
       line(mouseX, y_scrn, mouseX, y_scrn+h_scrn); //vertical
