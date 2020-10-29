@@ -1,7 +1,4 @@
-//import controlP5.*;
-
 import processing.serial.*;
-//date time tag
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,12 +26,14 @@ boolean folder_selected=false;
 
 //int w_win 800; 
 //int h_win=600;
+int h_knobs = 0; //knobs for controlling df offset and channel gain
 int w_scrn=700;
-int h_scrn=480;
+//int h_scrn=480;
+int h_scrn=480-h_knobs;
 int x_scrn=20;
 int y_scrn=20;
 int fsize= 12;
-
+float VmaxArduino = 5.0;
 //trigger status
 int x_ts=x_scrn+w_scrn+20;
 int y_ts=y_scrn;
@@ -50,8 +49,10 @@ boolean doread=false;
 //save status
 boolean save_mode=false;
 int save_fill_color = 255;
-
+color this_color=color(255,255,255);
 //channels
+int[] dc_level={0,0,0,0,0,0}; //for future dc_offset
+float[] gain_level={1,1,1,1,1,1}; //for future channel gain
 int x_ch=x_ts;
 int y_ch=y_ts+4*h_ts;
 int w_ch=w_ts;
@@ -107,7 +108,8 @@ float Vdiv[]={1.0, 0.2};
 //pulser - everything in units of 1/8th of microsecond
 int x_pb=x_scrn+50;
 //int y_pb=y_scrn+h_scrn+40;
-int y_pb=y_scrn+h_scrn+20;
+//int y_pb=y_scrn+h_scrn+20;
+int y_pb=y_scrn+h_scrn+20+h_knobs;
 int w_pb=w_scrn-50;
 int h_pb=h_ch;
 int pls_period[]  ={ 16, 40, 80, 160, 400, 800, 1600, 4000, 8000, 16000, 40000, 10000, 20000, 50000, 12500, 25000, 62500};
@@ -452,18 +454,48 @@ void drawch() {
   }
 }
 
-void drawscrn() {
-  //trigger level
+void draw_dclevel() {
+  //rectrangle to erase previous
   fill(0); 
   stroke(0);
-  rect(x_scrn-10, y_scrn, 10, h_scrn);
+  rect(x_scrn-20, y_scrn, 20,h_scrn+4);
+   //**************
+  //trigger level
+  //for (int ichan=0; ichan<maxnchan; ichan++) {
+  //  if ((chanstat[ichan]==0)&&((chanstat[ichan]==2)|(chanstat[ichan]==3))) continue;
+  //  this_color = chan_color[ichan];
+  //}
+  fill(0); 
+  stroke(0);
+  //rect(x_scrn-10, y_scrn, 10, h_scrn);
   fill(255); 
   stroke(255);
   float y_tl=y_scrn+h_scrn-trig_level/(1.0*maxval)*h_scrn;
   line(x_scrn-10, y_tl, x_scrn, y_tl);
   line(x_scrn-5, y_tl-4, x_scrn, y_tl);
   line(x_scrn-5, y_tl+4, x_scrn, y_tl);
+  //************
+   //dc level arrow indication
+  for (int ichan=0; ichan<maxnchan; ichan++) {
+   float y_dclevel=y_scrn+h_scrn-dc_level[ichan]/(1.0*maxval)*h_scrn;
 
+  if (chanstat[ichan]==0) continue;
+
+  fill(255); 
+  stroke(chan_color[ichan]);
+  line(x_scrn-10, y_dclevel, x_scrn, y_dclevel);
+  line(x_scrn-5, y_dclevel-4, x_scrn, y_dclevel);
+  line(x_scrn-5, y_dclevel+4, x_scrn, y_dclevel);
+  //
+  f = createFont("ArialMT", 10);
+  textFont(f, 10);
+  textAlign(CENTER);
+  fill(chan_color[ichan]); 
+  stroke(chan_color[ichan]);
+  text(ichan, x_scrn-15, y_dclevel+5);//number indicating channel
+  }
+}
+void drawscrn() {
   //trigger offset
   fill(0); 
   stroke(0);
@@ -570,6 +602,7 @@ void drawtraces() {
   //draw the traces
   for (int ichan=0; ichan<maxnchan; ichan++) {
     if (chanstat[ichan]==0) continue;
+    // dc level for this channel
     fill(255); 
     stroke(chan_color[ichan]);
     float xprev=0.0; 
@@ -578,11 +611,10 @@ void drawtraces() {
     for (int isamp=0; isamp<nsamp; isamp++) {
       if (i==ichan) {
         float x=x_scrn+isamp*(w_scrn/(1.0*nsamp));
-        float y=y_scrn+h_scrn-values[isamp]*(h_scrn/(1.0*maxval));
+        float y=y_scrn+h_scrn-gain_level[ichan]*(values[isamp]-dc_level[ichan])*(h_scrn/(1.0*maxval));
         if (isamp>=nchan) line(xprev, yprev, x, y);
         xprev=x;
         yprev=y;
-        //println(x);
       }
       i=nextchan[i];
     }
@@ -592,9 +624,12 @@ void drawtraces() {
 void draw()
 {
   if (port_selected) {
+    draw_dclevel();
     drawscrn();
     if (trig_mode==0 || doread)getdata();
+
     drawtraces(); 
+    //draw_dclevel();
     save_mode=false;
   }
   //draw cross markers at mouse position
@@ -631,18 +666,21 @@ void save_data()
   //
   Table table;
   table = new Table();
-  table.addColumn("time(s)");
+  table.addColumn("time(ms)");
   //creating voltage channels
   for (int ichan=0; ichan<maxnchan; ichan++) {
     if (chanstat[ichan]>0) {
-      table.addColumn("voltage_"+str(ichan));
+      table.addColumn("voltage_"+str(ichan)+"(V)");
     }
   }
   //creating x-valued rows
+  float fsamp=16e6/(13*ADCPS[tbval]*skipsamp[tbval]);
+  float xdivdist=1e-3*tbms[tbval]*fsamp*((1.0*w_scrn)/(1.0*nsamp));
   for (int isamp=0; isamp<nsamp/nchan; isamp++) {
-    float x = isamp/(1.0*nsamp);
-    TableRow newRow = table.addRow();
-    newRow.setFloat("time(s)", x);
+      float x = nchan*isamp*(w_scrn/(1.0*nsamp));
+      float time_val= x*1.0/xdivdist*tbms[tbval];
+      TableRow newRow = table.addRow();
+      newRow.setFloat("time(s)", time_val);
   }
   //attributing y-values for enabled channels
   int ichan0 =0; 
@@ -651,8 +689,8 @@ void save_data()
     if (chanstat[ichan]>0) {
       println(str(ichan));
       for (int isamp=0; isamp<nsamp/nchan; isamp++) {
-        //float y = values[ichan+isamp*nchan]/(1.0*maxval);
-        float y = values[ichan0+isamp*nchan];
+        float y = VmaxArduino*values[ichan+isamp*nchan]/(1.0*maxval);
+        //float y = values[ichan0+isamp*nchan];
         table.setFloat(isamp, "voltage_"+str(ichan), y);
       }
       ichan0+=1;
@@ -665,6 +703,7 @@ void save_data()
   println("Saving on folder:"+save_folder);
   println(save_folder+File.separator+"canais_"+formattedDateTime+".csv");
   saveTable(table, save_folder+File.separator+"canais_"+formattedDateTime+".csv");
+  saveFrame(save_folder+File.separator+"canais_"+formattedDateTime+".png");
 }
 
 void save_screen()
