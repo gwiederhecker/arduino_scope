@@ -198,6 +198,22 @@ void setup()
   //frame.setResizable(true);
   background(0);
   draw_interface();
+  f = createFont("ArialMT", 16);
+  textFont(f, 32);
+   textAlign(CENTER);
+  fill(0,255,0); 
+  stroke(0,255,0); 
+  text("Welcome to ArduinoScope \n v0.1b (2020-Nov-10)", w_scrn/2, h_scrn/2-90);
+  textAlign(CENTER);
+  fill(255,100,0); 
+  stroke(255,100,0);
+  text("Please, select the USB port \n connected to your Arduino!", w_scrn/2, h_scrn/2);
+  textFont(f, 16);
+  text("Use the 'Select USB port'  tool at the bottom-right corner!\n Make sure the USB-Serial (usually CH340) drivers are installed.", w_scrn/2, h_scrn/2+80);
+  textFont(f, 12);
+   fill(255); 
+  stroke(255);
+  text("This program is an opensource initiative, \n for more information check out https://github.com/gwiederhecker/arduino_scope ", w_scrn/2, h_scrn-20);
   //************************
   //font_menu = createFont("ArialMT",10,true);
   //selectSerialPort();
@@ -689,7 +705,7 @@ void save_data()
     if (chanstat[ichan]>0) {
       println(str(ichan));
       for (int isamp=0; isamp<nsamp/nchan; isamp++) {
-        float y = VmaxArduino*values[ichan+isamp*nchan]/(1.0*maxval);
+        float y = VmaxArduino*values[ichan0+isamp*nchan]/(1.0*maxval);
         //float y = values[ichan0+isamp*nchan];
         table.setFloat(isamp, "voltage_"+str(ichan), y);
       }
